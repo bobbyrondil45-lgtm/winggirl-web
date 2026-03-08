@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wing Girl — Dating, but with receipts.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --red: #8B1A1A;
+      --brown: #3C1F0E;
+      --gold: #C9A84C;
+      --cream: #F5EFE6;
+      --dark: #1A0A00;
+      --neon: #FF4D6D;
+      --text-light: #F5EFE6;
+      --gray: #9E8B7A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--dark);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ====== NAV ====== */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 40px;
+      background: linear-gradient(to bottom, rgba(26,10,0,0.95), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.05em;
+    }
+    .logo span { color: var(--neon); }
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav ul a {
+      text-decoration: none; color: var(--cream);
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; opacity: 0.8;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    nav ul a:hover { opacity: 1; color: var(--gold); }
+    .nav-cta {
+      background: var(--red); color: var(--cream) !important;
+      padding: 10px 24px; border-radius: 2px;
+      opacity: 1 !important;
+    }
+    .nav-cta:hover { background: var(--neon) !important; color: white !important; }
+
+    /* ====== HERO ====== */
+    .hero {
+      min-height: 100vh;
+      background: 
+        linear-gradient(135deg, rgba(139,26,26,0.4) 0%, rgba(26,10,0,0.85) 50%, rgba(60,31,14,0.6) 100%),
+        radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.15) 0%, transparent 60%);
+      display: flex; align-items: center;
+      padding: 120px 40px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -50%; right: -20%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(139,26,26,0.3), transparent 70%);
+    }
+    .hero-content { max-width: 680px; z-index: 1; }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid var(--gold);
+      padding: 6px 16px; margin-bottom: 32px; border-radius: 2px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05; font-weight: 700;
+      margin-bottom: 24px; color: var(--cream);
+    }
+    .hero h1 em { color: var(--gold); font-style: italic; }
+    .hero p {
+      font-size: 1.1rem; line-height: 1.7;
+      color: rgba(245,239,230,0.75); max-width: 520px; margin-bottom: 48px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--red); color: var(--cream);
+      padding: 16px 36px; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 2px; transition: background 0.2s, transform 0.1s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--neon); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent; color: var(--cream);
+      padding: 16px 36px; border: 1px solid rgba(245,239,230,0.4);
+      cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 2px; transition: border-color 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ====== SECTION BASE ====== */
+    section { padding: 100px 40px; }
+    .section-label {
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700;
+      margin-bottom: 16px; line-height: 1.2;
+    }
+    .section-sub {
+      color: var(--gray); font-size: 1rem; line-height: 1.7; max-width: 560px;
+    }
+
+    /* ====== HOW IT WORKS ====== */
+    .how { background: var(--brown); }
+    .how-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px; margin-top: 60px;
+    }
+    .how-card {
+      background: rgba(26,10,0,0.6); padding: 48px 36px;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .how-card:hover { background: rgba(139,26,26,0.25); }
+    .how-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; font-weight: 700; color: rgba(201,168,76,0.15);
+      line-height: 1; position: absolute; top: 16px; right: 24px;
+    }
+    .how-icon { font-size: 2rem; margin-bottom: 20px; }
+    .how-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: var(--cream);
+    }
+    .how-card p { font-size: 0.9rem; line-height: 1.7; color: var(--gray); }
+
+    /* ====== ROLES ====== */
+    .roles { background: var(--dark); }
+    .roles-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 60px;
+    }
+    .role-card {
+      border: 1px solid rgba(201,168,76,0.2); padding: 40px 32px;
+      border-radius: 4px; position: relative;
+      background: linear-gradient(135deg, rgba(60,31,14,0.4), rgba(26,10,0,0.8));
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .role-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .role-badge {
+      display: inline-block; padding: 4px 14px;
+      border-radius: 20px; font-size: 0.7rem;
+      font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .badge-wing { background: rgba(255,77,109,0.2); color: var(--neon); }
+    .badge-man { background: rgba(201,168,76,0.2); color: var(--gold); }
+    .badge-dater { background: rgba(139,26,26,0.3); color: #E88080; }
+    .role-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; margin-bottom: 16px; color: var(--cream);
+    }
+    .role-card ul { list-style: none; }
+    .role-card ul li {
+      font-size: 0.88rem; color: var(--gray); padding: 8px 0;
+      border-bottom: 1px solid rgba(245,239,230,0.06);
+      display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+    }
+    .role-card ul li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+
+    /* ====== PROFILE PREVIEW ====== */
+    .profile-section { background: var(--brown); }
+    .profile-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 60px; }
+    .profile-phone {
+      background: var(--dark); border-radius: 32px; overflow: hidden;
+      border: 1px solid rgba(201,168,76,0.3); max-width: 340px; margin: 0 auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+    .profile-cover {
+      height: 340px; position: relative;
+      background: linear-gradient(135deg, #3C1F0E, #8B1A1A, #1A0A00);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+    }
+    .profile-cover-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,10,0,0.9) 0%, transparent 60%);
+    }
+    .profile-song {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(0,0,0,0.6); border-radius: 20px;
+      padding: 6px 14px; font-size: 0.7rem; color: var(--gold);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .profile-info { position: relative; z-index: 1; }
+    .profile-certified {
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .profile-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 700; color: var(--cream);
+    }
+    .profile-sub { font-size: 0.8rem; color: var(--gray); margin-top: 4px; }
+    .profile-body { padding: 20px; }
+    .profile-quote {
+      border-left: 2px solid var(--gold); padding-left: 16px;
+      margin-bottom: 20px;
+    }
+    .profile-quote p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 0.9rem; color: var(--cream); line-height: 1.6;
+    }
+    .profile-quote span { font-size: 0.7rem; color: var(--gray); margin-top: 6px; display: block; }
+    .profile-facts { display: flex; flex-direction: column; gap: 8px; }
+    .profile-fact { display: flex; justify-content: space-between; align-items: center; }
+    .fact-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); }
+    .fact-val { font-size: 0.85rem; color: var(--cream); font-weight: 500; }
+    .profile-actions {
+      display: flex; justify-content: center; gap: 24px; padding: 20px;
+      border-top: 1px solid rgba(245,239,230,0.08);
+    }
+    .action-btn {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1px solid rgba(245,239,230,0.2);
+      background: transparent; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; transition: background 0.2s, border-color 0.2s;
+    }
+    .action-btn:hover { background: rgba(139,26,26,0.4); border-color: var(--neon); }
+    .action-btn.like { background: rgba(139,26,26,0.3); border-color: var(--red); }
+
+    .profile-info-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; margin-bottom: 16px; color: var(--cream);
+    }
+    .profile-info-text p { font-size: 0.95rem; line-height: 1.8; color: var(--gray); margin-bottom: 24px; }
+    .feature-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill {
+      padding: 8px 18px; border-radius: 20px;
+      border: 1px solid rgba(201,168,76,0.3); font-size: 0.78rem;
+      color: var(--gold); letter-spacing: 0.05em;
+      background: rgba(201,168,76,0.05);
+    }
+
+    /* ====== SAFETY ====== */
+    .safety { background: var(--dark); }
+    .safety-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 60px; }
+    .safety-item {
+      background: rgba(60,31,14,0.3); border: 1px solid rgba(245,239,230,0.06);
+      padding: 32px 24px; border-radius: 4px; text-align: center;
+    }
+    .safety-icon { font-size: 2rem; margin-bottom: 16px; }
+    .safety-item h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 8px; color: var(--cream); }
+    .safety-item p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
+
+    /* ====== WAITLIST ====== */
+    .waitlist {
+      background: linear-gradient(135deg, var(--red), var(--brown));
+      text-align: center; padding: 100px 40px;
+    }
+    .waitlist h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700;
+      margin-bottom: 16px; color: var(--cream);
+    }
+    .waitlist p { color: rgba(245,239,230,0.75); max-width: 480px; margin: 0 auto 48px; font-size: 1rem; line-height: 1.7; }
+    .waitlist-form { display: flex; gap: 0; max-width: 480px; margin: 0 auto; }
+    .waitlist-form input {
+      flex: 1; padding: 18px 24px;
+      background: rgba(26,10,0,0.5); border: 1px solid rgba(245,239,230,0.2);
+      border-right: none; color: var(--cream); font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; outline: none; border-radius: 2px 0 0 2px;
+    }
+    .waitlist-form input::placeholder { color: rgba(245,239,230,0.4); }
+    .waitlist-form button {
+      padding: 18px 32px; background: var(--dark); color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4); cursor: pointer;
+      font-family: 'Inter', sans-serif; font-weight: 600;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 0 2px 2px 0; transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .waitlist-form button:hover { background: rgba(201,168,76,0.1); }
+
+    /* ====== FOOTER ====== */
+    footer {
+      background: var(--dark); padding: 60px 40px 40px;
+      border-top: 1px solid rgba(245,239,230,0.06);
+    }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 32px; }
+    .footer-brand .logo { display: block; margin-bottom: 12px; }
+    .footer-brand p { font-size: 0.85rem; color: var(--gray); max-width: 260px; line-height: 1.6; }
+    .footer-links h5 { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .footer-links ul { list-style: none; }
+    .footer-links ul li { margin-bottom: 10px; }
+    .footer-links ul li a { text-decoration: none; font-size: 0.88rem; color: var(--gray); transition: color 0.2s; }
+    .footer-links ul li a:hover { color: var(--cream); }
+    .footer-bottom { border-top: 1px solid rgba(245,239,230,0.06); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-bottom p { font-size: 0.78rem; color: var(--gray); }
+
+    /* ====== MODAL ====== */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      z-index: 1000; display: none; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--brown); border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 8px; padding: 48px 40px; max-width: 480px; width: 100%;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: none; color: var(--gray); cursor: pointer;
+      font-size: 1.4rem;
+    }
+    .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 8px; color: var(--cream); }
+    .modal p { color: var(--gray); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.6; }
+    .modal-tabs { display: flex; gap: 0; margin-bottom: 28px; border: 1px solid rgba(245,239,230,0.1); border-radius: 2px; overflow: hidden; }
+    .modal-tab {
+      flex: 1; padding: 12px; text-align: center; cursor: pointer;
+      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gray); background: transparent; border: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-tab.active { background: var(--red); color: var(--cream); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 14px 18px;
+      background: rgba(26,10,0,0.5); border: 1px solid rgba(245,239,230,0.15);
+      color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.95rem;
+      border-radius: 2px; outline: none; transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group select option { background: var(--brown); }
+    .form-submit {
+      width: 100%; padding: 16px; background: var(--red); color: var(--cream);
+      border: none; cursor: pointer; font-family: 'Inter', sans-serif;
+      font-weight: 600; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 2px; transition: background 0.2s; margin-top: 8px;
+    }
+    .form-submit:hover { background: var(--neon); }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      nav ul { display: none; }
+      section { padding: 70px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .profile-wrap { grid-template-columns: 1fr; }
+      .waitlist-form { flex-direction: column; }
+      .waitlist-form input { border-right: 1px solid rgba(245,239,230,0.2); border-bottom: none; border-radius: 2px 2px 0 0; }
+      .waitlist-form button { border-radius: 0 0 2px 2px; }
+      .footer-top { flex-direction: column; }
+      .modal { padding: 32px 24px; }
+    }
+
+    /* ====== ANIMATIONS ====== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.8s ease forwards; }
+    .fade-up-2 { animation: fadeUp 0.8s 0.15s ease forwards; opacity: 0; }
+    .fade-up-3 { animation: fadeUp 0.8s 0.3s ease forwards; opacity: 0; }
+
+    /* ====== TOAST ====== */
+    .toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--dark); padding: 14px 28px;
+      border-radius: 4px; font-weight: 600; font-size: 0.9rem;
+      z-index: 2000; display: none; white-space: nowrap;
+    }
+    .toast.show { display: block; animation: fadeUp 0.3s ease; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Wing<span>Girl</span></div>
+  <ul>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#roles">Roles</a></li>
+    <li><a href="#safety">Safety</a></li>
+    <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag fade-up">✦ Invite-Only Dating App</span>
+    <h1 class="fade-up-2">Dating, but<br>with <em>receipts.</em></h1>
+    <p class="fade-up-3">Good men, verified by women. Wing Girl replaces swipe culture with social proof — where the women who know these men best make the introduction.</p>
+    <div class="hero-btns fade-up-3">
+      <a href="#" class="btn-primary" onclick="openModal()">Get Early Access</a>
+      <a href="#how" class="btn-outline">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <p class="section-label">The Model</p>
+  <h2 class="section-title">Not a swipe app.<br>A curated ecosystem.</h2>
+  <p class="section-sub">Wing Girl flips the traditional dating power structure. Women curate, vouch, and protect. Men earn their place through social proof.</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <div class="how-icon">👩</div>
+      <h3>Wing Girl Nominates</h3>
+      <p>A verified woman creates a profile for a man she trusts — her brother, friend, coworker. She writes his bio, green flags, dating intent, and uploads photos he approves.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <div class="how-icon">🔗</div>
+      <h3>Man Gets Invited</h3>
+      <p>He receives an invite link. He verifies his identity, reviews his profile, approves photos and info — then he's live. He cannot join any other way.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <div class="how-icon">💛</div>
+      <h3>Women Browse & Like</h3>
+      <p>Women daters scroll editorial-style profiles. Limited daily likes keep it intentional. No swiping. No volume games. Just curated discovery.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <div class="how-icon">💬</div>
+      <h3>He Initiates, She Decides</h3>
+      <p>Men only see women who liked them. They must send the first message — encouraging effort and respect. Women receive zero unsolicited messages.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USER ROLES -->
+<section class="roles" id="roles">
+  <p class="section-label">User Roles</p>
+  <h2 class="section-title">Three roles.<br>One ecosystem.</h2>
+  <p class="section-sub">Every person on Wing Girl plays a specific, meaningful role. No lurking. No low effort. No filler.</p>
+  <div class="roles-grid">
+    <div class="role-card">
+      <span class="role-badge badge-wing">Wing Girl</span>
+      <h3>The Curator</h3>
+      <ul>
+        <li>Women-only signup with ID + selfie verification</li>
+        <li>Create profiles for men you trust (friend, family, coworker)</li>
+        <li>Write bio, green flags, personality highlights, dating intent</li>
+        <li>Upload photos — man approves before going live</li>
+        <li>Earn badges: "Sister Approved," "Friend Vouched," "Cousin Certified"</li>
+        <li>Earn rewards for quality matches, not just volume</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <span class="role-badge badge-man">The Man</span>
+      <h3>Invite-Only</h3>
+      <ul>
+        <li>Cannot sign up independently — invite link only</li>
+        <li>Must verify identity and approve all profile info</li>
+        <li>Cannot browse women freely</li>
+        <li>Only sees women who have liked him</li>
+        <li>Must initiate all conversations</li>
+        <li>Optional: add voice note "About Me"</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <span class="role-badge badge-dater">Women Dater</span>
+      <h3>The Chooser</h3>
+      <ul>
+        <li>Browse verified, vouched men only</li>
+        <li>Limited daily likes — intentionality over volume</li>
+        <li>Zero unsolicited messages ever</li>
+        <li>Filter by age, distance, intentions, values</li>
+        <li>Earn rewards: boosts, read receipts, exclusive profiles</li>
+        <li>Match + date confirmation = bonus points</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE PREVIEW -->
+<section class="profile-section" id="profiles">
+  <p class="section-label">Profile Design</p>
+  <h2 class="section-title">Editorial spreads,<br>not dating cards.</h2>
+  <div class="profile-wrap">
+    <div>
+      <div class="profile-phone">
+        <div class="profile-cover">
+          <div class="profile-cover-overlay"></div>
+          <div class="profile-song">♪ Playing · Frank Ocean</div>
+          <div class="profile-info">
+            <p class="profile-certified">✦ Sister Approved</p>
+            <p class="profile-name">Marcus, 28</p>
+            <p class="profile-sub">Atlanta, GA · Product Manager</p>
+          </div>
+        </div>
+        <div class="profile-body">
+          <div class="profile-quote">
+            <p>"He's the friend who actually plans dates and shows up early. Best human I know."</p>
+            <span>— Jordan, his sister</span>
+          </div>
+          <div class="profile-facts">
+            <div class="profile-fact"><span class="fact-label">Education</span><span class="fact-val">Howard University</span></div>
+            <div class="profile-fact"><span class="fact-label">Intent</span><span class="fact-val">Serious Dating</span></div>
+            <div class="profile-fact"><span class="fact-label">Energy</span><span class="fact-val">Ambitious · Soft · Funny</span></div>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="action-btn">✕</button>
+          <button class="action-btn">⭐</button>
+          <button class="action-btn like">♡</button>
+        </div>
+      </div>
+    </div>
+    <div class="profile-info-text">
+      <h3>Music. Magazine. Moment.</h3>
+      <p>Each profile is a vertical editorial spread — not a card. A song plays as you scroll. A Wing Girl pull-quote sets the tone. Photos are laid out like a zine, not a grid.</p>
+      <p>This is Hype Williams meets Hinge. Rich skin tones, bold typography, intentional grain. It should feel like scrolling a fashion + culture magazine.</p>
+      <div class="feature-pills">
+        <span class="pill">Profile song (15–30s loop)</span>
+        <span class="pill">Magazine-style layout</span>
+        <span class="pill">Wing Girl pull quote</span>
+        <span class="pill">Voice note option</span>
+        <span class="pill">Asymmetric photo spread</span>
+        <span class="pill">Personal tagline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="safety" id="safety">
+  <p class="section-label">Trust & Safety</p>
+  <h2 class="section-title">Safer than Tinder.<br>By design.</h2>
+  <p class="section-sub">Safety isn't a feature here — it's the foundation. The entire model is built around accountability and verified social proof.</p>
+  <div class="safety-grid">
+    <div class="safety-item">
+      <div class="safety-icon">🔒</div>
+      <h4>Dual Verification</h4>
+      <p>Wing Girls verify with ID + selfie. Men verify identity before activation. No anonymous profiles ever.</p>
+    </div>
+    <div class="safety-item">
+      <div class="safety-icon">🛡️</div>
+      <h4>Wing Girl Accountability</h4>
+      <p>Reports are tied to both the man and his Wing Girl. Bad actors affect the person who vouched for them.</p>
+    </div>
+    <div class="safety-item">
+      <div class="safety-icon">📍</div>
+      <h4>Date Check-In</h4>
+      <p>Built-in date check-in feature. Let a friend know you're safe — without leaving the app.</p>
+    </div>
+    <div class="safety-item">
+      <div class="safety-icon">🚫</div>
+      <h4>Soft Ban System</h4>
+      <p>Repeated bad behavior triggers soft bans. Zero tolerance for harassment — consequences for the voucher too.</p>
+    </div>
+    <div class="safety-item">
+      <div class="safety-icon">🏅</div>
+      <h4>Trust Badges</h4>
+      <p>"Sister Approved," "Friend Vouched," "Cousin Certified" — every man carries visible social proof.</p>
+    </div>
+    <div class="safety-item">
+      <div class="safety-icon">🔕</div>
+      <h4>No Unsolicited Messages</h4>
+      <p>Women never receive messages from men who haven't been liked first. Period.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist" id="waitlist">
+  <h2>Your friend's<br>favorite guy<br>is waiting.</h2>
+  <p>Join the waitlist. Be first in your city. We're launching in DC and NYC — your campus or city could be next.</p>
+  <form class="waitlist-form" onsubmit="handleWaitlist(event)">
+    <input type="email" id="waitlist-email" placeholder="your@email.com" required />
+    <button type="submit">Join Waitlist</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">Wing<span style="color:var(--neon)">Girl</span></div>
+      <p>Dating, but with receipts. Good men, verified by women.</p>
+    </div>
+    <div class="footer-links">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#roles">User Roles</a></li>
+        <li><a href="#safety">Safety</a></li>
+        <li><a href="#" onclick="openModal()">Join Waitlist</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Investors</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Community Guidelines</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Wing Girl. All rights reserved.</p>
+    <p style="color: var(--gold); font-size: 0.75rem;">Because the best guys don't self-promote.</p>
+  </div>
+</footer>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h2>Get Early Access</h2>
+    <p>Choose your role to join the Wing Girl waitlist.</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab(this, 'wing')">Wing Girl</button>
+      <button class="modal-tab" onclick="switchTab(this, 'dater')">Women Dater</button>
+      <button class="modal-tab" onclick="switchTab(this, 'man')">Nominate a Catch</button>
+    </div>
+    <form onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Your name" required />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com" required />
+      </div>
+      <div class="form-group" id="city-group">
+        <label>Your City</label>
+        <select>
+          <option value="">Select your city</option>
+          <option>Washington D.C.</option>
+          <option>New York City</option>
+          <option>Atlanta</option>
+          <option>Los Angeles</option>
+          <option>Chicago</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group" id="man-name-group" style="display:none">
+        <label>Man's Name (optional)</label>
+        <input type="text" placeholder="Who are you nominating?" />
+      </div>
+      <button type="submit" class="form-submit">Join Waitlist →</button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">🎉 You're on the list! We'll be in touch.</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+  function closeModalOutside(e) { if (e.target.id === 'modal') closeModal(); }
+
+  function switchTab(el, role) {
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const manGroup = document.getElementById('man-name-group');
+    manGroup.style.display = role === 'man' ? 'block' : 'none';
+  }
+
+  function handleSignup(e) {
+    e.preventDefault();
+    closeModal();
+    showToast();
+  }
+
+  function handleWaitlist(e) {
+    e.preventDefault();
+    document.getElementById('waitlist-email').value = '';
+    showToast();
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
