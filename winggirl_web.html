@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wing Girl — Your friend's favorite guy is waiting</title>
     <style>
-        :root {
-            --red: #8B1A1A;
-            --gold: #C9A84C;
-            --cream: #F5EFE6;
-            --dark: #1A0A00;
-            --black: #000;
-            --white: #FFF;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -21,8 +12,8 @@
         }
 
         body {
-            background: var(--white);
-            color: var(--black);
+            background: #0a0a0a;
+            color: #fff;
             font-family: Helvetica, Arial, sans-serif;
             line-height: 1.5;
         }
@@ -37,15 +28,16 @@
             justify-content: space-between;
             align-items: center;
             padding: 24px 40px;
-            background: rgba(255,255,255,0.95);
+            background: rgba(10,10,10,0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid #E0E0E0;
+            border-bottom: 1px solid #222;
         }
 
         .logo {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: var(--black);
+            color: #fff;
+            letter-spacing: 0.05em;
         }
 
         nav ul {
@@ -56,17 +48,19 @@
 
         nav ul a {
             text-decoration: none;
-            color: var(--black);
-            font-size: 0.9rem;
+            color: #fff;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
         }
 
         nav ul a:hover {
-            opacity: 0.6;
+            color: #ADFF2F;
         }
 
-        /* ====== HERO SECTION ====== */
+        /* ====== HERO ====== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -74,15 +68,15 @@
             justify-content: center;
             text-align: center;
             padding: 120px 40px 80px;
-            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            position: relative;
         }
 
         .hero-content {
-            max-width: 900px;
+            max-width: 1000px;
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(3.5rem, 8vw, 7rem);
             line-height: 1;
             font-weight: 900;
             margin-bottom: 32px;
@@ -91,172 +85,213 @@
 
         .hero h1 em {
             font-style: italic;
-            color: var(--red);
+            color: #ADFF2F;
         }
 
         .hero p {
             font-size: 1.3rem;
             line-height: 1.6;
-            color: #444;
+            color: #aaa;
             max-width: 600px;
             margin: 0 auto 48px;
         }
 
         .btn-primary {
-            background: var(--black);
-            color: var(--white);
+            background: #ADFF2F;
+            color: #0a0a0a;
             padding: 18px 42px;
             border: none;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
             text-decoration: none;
             display: inline-block;
         }
 
         .btn-primary:hover {
-            background: var(--red);
+            background: #fff;
+            transform: scale(1.05);
         }
 
-        /* ====== FULL BLEED EDITORIAL SECTION ====== */
-        .editorial {
-            padding: 0;
+        /* ====== CARD GRID SECTION ====== */
+        .cards-section {
+            padding: 100px 40px;
+            background: #0a0a0a;
         }
 
-        .portrait-grid {
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cards-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 100vh;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .portrait-card {
-            position: relative;
-            min-height: 100vh;
+        .profile-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
         }
 
-        .portrait-img {
-            position: absolute;
-            inset: 0;
+        .profile-card:hover {
+            transform: translateY(-8px);
+            border-color: #ADFF2F;
+        }
+
+        .card-img-wrap {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: #222;
+        }
+
+        .card-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(0.3) contrast(1.1);
+            filter: grayscale(0.2) contrast(1.1);
         }
 
-        .portrait-overlay {
-            position: relative;
-            z-index: 2;
-            padding: 60px;
-            text-align: center;
-            color: var(--white);
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #ADFF2F;
+            color: #0a0a0a;
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 20px;
         }
 
-        .portrait-label {
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            background: linear-gradient(to top, rgba(10,10,10,0.95), transparent);
+        }
+
+        .card-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-location {
             font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 20px;
+            color: #aaa;
+            margin-bottom: 12px;
         }
 
-        .portrait-title {
-            font-size: clamp(3rem, 5vw, 5rem);
-            font-weight: 900;
-            line-height: 0.95;
-            text-transform: uppercase;
-            margin-bottom: 24px;
+        .card-body {
+            padding: 24px;
         }
 
-        .portrait-desc {
-            font-size: 1.1rem;
-            max-width: 400px;
-            margin: 0 auto;
+        .card-quote {
+            font-style: italic;
+            color: #ccc;
+            font-size: 1rem;
             line-height: 1.6;
+            margin-bottom: 16px;
         }
 
-        /* Dark variant */
-        .portrait-dark {
-            background: var(--black);
+        .card-vouch {
+            font-size: 0.85rem;
+            color: #ADFF2F;
+            font-weight: 600;
         }
 
-        .portrait-dark .portrait-overlay {
-            color: var(--cream);
-            text-shadow: none;
+        /* ====== HOW IT WORKS ====== */
+        .how-section {
+            padding: 100px 40px;
+            background: #111;
         }
 
-        /* ====== MINIMAL INFO SECTION ====== */
-        .info-section {
-            padding: 120px 40px;
-            background: var(--white);
-            text-align: center;
-        }
-
-        .info-section h2 {
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 32px;
-        }
-
-        .info-section p {
-            font-size: 1.2rem;
-            color: #555;
-            max-width: 700px;
-            margin: 0 auto 60px;
-            line-height: 1.8;
-        }
-
-        .feature-list {
+        .how-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 40px;
             max-width: 1200px;
-            margin: 0 auto;
-            text-align: left;
+            margin: 60px auto 0;
         }
 
-        .feature-item h3 {
+        .how-item {
+            text-align: center;
+        }
+
+        .how-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ADFF2F;
+            margin-bottom: 16px;
+        }
+
+        .how-item h3 {
             font-size: 1.5rem;
             margin-bottom: 12px;
             font-weight: 700;
         }
 
-        .feature-item p {
-            font-size: 1rem;
-            color: #666;
+        .how-item p {
+            color: #aaa;
             line-height: 1.7;
+        }
+
+        /* ====== CTA ====== */
+        .cta-section {
+            padding: 120px 40px;
+            background: #0a0a0a;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 48px;
         }
 
         /* ====== FOOTER ====== */
         footer {
             padding: 60px 40px;
-            background: var(--black);
-            color: var(--cream);
+            background: #000;
             text-align: center;
+            border-top: 1px solid #222;
         }
 
         footer p {
             font-size: 0.9rem;
+            color: #666;
         }
 
         @media (max-width: 768px) {
-            .portrait-grid {
+            .cards-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .portrait-card {
-                min-height: 70vh;
-            }
-            
-            nav {
-                padding: 20px;
             }
             
             nav ul {
@@ -268,67 +303,100 @@
 <body>
 
 <nav>
-    <div class="logo">Wing Girl</div>
+    <div class="logo">WING GIRL</div>
     <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#waitlist">Join Waitlist</a></li>
+        <li><a href="#profiles">Profiles</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#join">Join</a></li>
     </ul>
 </nav>
 
 <section class="hero">
     <div class="hero-content">
         <h1>Your friend's favorite guy is <em>waiting.</em></h1>
-        <p>No swipes. No strangers. Just good men, verified by the women who know them best.</p>
-        <a href="#waitlist" class="btn-primary">Get Early Access</a>
+        <p>No swipes. No strangers. Just verified men vouched for by women who actually know them.</p>
+        <a href="#join" class="btn-primary">Get Early Access</a>
     </div>
 </section>
 
-<section class="editorial">
-    <div class="portrait-grid">
-        <div class="portrait-card">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1200" class="portrait-img" alt="Man portrait">
-            <div class="portrait-overlay">
-                <div class="portrait-label">Sister Approved</div>
-                <div class="portrait-title">MARCUS,<br>28</div>
-                <div class="portrait-desc">"He's the friend who shows up early and actually plans dates."</div>
-            </div>
-        </div>
-        
-        <div class="portrait-card portrait-dark">
-            <div class="portrait-overlay">
-                <div class="portrait-label">How It Works</div>
-                <div class="portrait-title">DATE<br>WITH<br>RECEIPTS</div>
-                <div class="portrait-desc">Women vouch. Men get invited. You browse verified profiles—no unsolicited DMs, ever.</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="info-section" id="about">
-    <h2>Social proof meets dating.</h2>
-    <p>Wing Girl is an invite-only dating app where women create profiles for men they trust. Every guy has a backstory. Every profile has a witness.</p>
+<section class="cards-section" id="profiles">
+    <h2 class="section-title">Verified Profiles</h2>
     
-    <div class="feature-list">
-        <div class="feature-item">
-            <h3>Wing Girls Vouch</h3>
-            <p>Your sister, friend, or coworker creates your profile. You can't join any other way.</p>
+    <div class="cards-grid">
+        <div class="profile-card">
+            <div class="card-img-wrap">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800" class="card-img" alt="Marcus">
+                <div class="card-badge">SISTER APPROVED</div>
+                <div class="card-overlay">
+                    <div class="card-name">MARCUS, 28</div>
+                    <div class="card-location">Atlanta, GA · Product Manager</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-quote">"He's the friend who actually plans dates and shows up early. Best human I know."</p>
+                <p class="card-vouch">— Jordan, his sister</p>
+            </div>
         </div>
-        
-        <div class="feature-item">
-            <h3>Women Browse</h3>
-            <p>Date with confidence. Every man has been verified and vouched for by someone who knows him.</p>
+
+        <div class="profile-card">
+            <div class="card-img-wrap">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800" class="card-img" alt="David">
+                <div class="card-badge">FRIEND VOUCHED</div>
+                <div class="card-overlay">
+                    <div class="card-name">DAVID, 31</div>
+                    <div class="card-location">Brooklyn, NY · Designer</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-quote">"Genuinely thoughtful. Will cook you dinner and actually listen when you talk."</p>
+                <p class="card-vouch">— Sarah, college friend</p>
+            </div>
         </div>
-        
-        <div class="feature-item">
-            <h3>Zero Unsolicited DMs</h3>
-            <p>Men only see women who liked them first. You're in control, always.</p>
+
+        <div class="profile-card">
+            <div class="card-img-wrap">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800" class="card-img" alt="James">
+                <div class="card-badge">COUSIN CERTIFIED</div>
+                <div class="card-overlay">
+                    <div class="card-name">JAMES, 26</div>
+                    <div class="card-location">DC · Teacher</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-quote">"Patient, kind, and has never missed a family event. He's the real deal."</p>
+                <p class="card-vouch">— Maya, his cousin</p>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="info-section" id="waitlist" style="background: #f9f9f9;">
+<section class="how-section" id="how">
+    <h2 class="section-title">How It Works</h2>
+    
+    <div class="how-grid">
+        <div class="how-item">
+            <div class="how-number">01</div>
+            <h3>Wing Girls Vouch</h3>
+            <p>Women create profiles for men they trust—brothers, friends, coworkers. They write the bio, add photos, and vouch for character.</p>
+        </div>
+        
+        <div class="how-item">
+            <div class="how-number">02</div>
+            <h3>Men Get Invited</h3>
+            <p>He receives an invite link, verifies his identity, and approves his profile. No self-signups allowed.</p>
+        </div>
+        
+        <div class="how-item">
+            <div class="how-number">03</div>
+            <h3>Women Browse & Match</h3>
+            <p>Browse verified profiles. Men only see women who liked them first. Zero unsolicited DMs, ever.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section" id="join">
     <h2>Join the waitlist.</h2>
-    <p>We're launching in DC and NYC first. Your city could be next.</p>
+    <p>Launching in DC and NYC first. Your city could be next.</p>
     <a href="#" class="btn-primary">Get Early Access →</a>
 </section>
 
